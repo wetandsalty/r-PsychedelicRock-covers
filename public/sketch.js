@@ -304,7 +304,7 @@ function toggleTracklist() {
   toggleVisibility( btnHide );
   toggleVisibility( btnShow );
 
-  const div = document.getElementById("btnTrcklst");
+  const div = document.getElementById("tabTracklist");
   div.classList.toggle("active");
 
   const x = document.getElementById("tracklist");
@@ -317,7 +317,7 @@ function toggleCntrls() {
   toggleVisibility( btnHide );
   toggleVisibility( btnShow );
 
-  const div = document.getElementById("btnCntrls");
+  const div = document.getElementById("tabCntrls");
   div.classList.toggle("active");
 
   const x = document.getElementById("controls");

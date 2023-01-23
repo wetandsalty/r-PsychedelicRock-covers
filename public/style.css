@@ -22,7 +22,7 @@
 
 :root {
   --font-tech: bd-geminis, sans-serif;
-  --font-meta: "Work Sans", sans-serif;
+  --font-body: "Work Sans", sans-serif;
   --main-font-color: #1A1A1A;
   --inverse-font-color: #FFFFFF;
   --reddit-red: #ff4500;
@@ -47,28 +47,6 @@
   color: var(--inverse-font-color);
 }
 
-/* remove again ? */
-
-.button {
-  position: absolute;
-  left: calc(50% - 3em);
-  top: calc(50% - 1em);
-
-  width: 6em;
-  border: 0;
-  border-radius: 3px;
-  background: var(--inverse-font-color);
-  color: var(--main-font-color);
-  font-family: system-ui, sans-serif;
-  font-size: 1em;
-  line-height: 2.25em;
-  white-space: nowrap;
-  text-decoration: none;
-  margin: 0;
-  cursor: pointer;
-  z-index: 15;
-}
-
 html, body {
   margin: 0;
   padding: 0;
@@ -77,9 +55,10 @@ html, body {
 body {
   background-color: white;
   color: var(--main-font-color);
-  font-family: var(--font-meta);
+  font-family: var(--font-body);
   font-size: clamp(18px, 2.75vmin, 24px);
   font-weight: 500;
+  line-height: 1.25;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -106,7 +85,7 @@ header {
   width: 100%;
   padding: 1.5rem 1.75rem;
   font-size: clamp(36px, 9vw, 120px);
-  line-height: 1em;
+  line-height: 1;
   font-family: var(--font-tech);
   z-index: 0;
 }
@@ -137,6 +116,26 @@ header p {
   text-decoration: none;
 }
 
+.button {
+  position: absolute;
+  left: calc(50% - 3em);
+  top: calc(50% - 1em);
+
+  width: 6em;
+  border: 0;
+  border-radius: 3px;
+  background: var(--inverse-font-color);
+  color: var(--main-font-color);
+  font-family: system-ui, sans-serif;
+  font-size: 1em;
+  line-height: 2.25;
+  white-space: nowrap;
+  text-decoration: none;
+  margin: 0;
+  cursor: pointer;
+  z-index: 15;
+}
+
 .cover {
   position: relative;
   display: block;
@@ -151,17 +150,16 @@ header p {
 h1, h2, h3 {
   margin: 0;
   font-weight: 400;
+  line-height: 1.25;
 }
 
 h1 {
   font-size: 2.5em;
-  line-height: 1.25em;
   font-family: var(--font-tech);
 }
 
 h2 {
   font-size: 1.75em;
-  line-height: 1.25em;
   margin: 0 0 0.5em 0;
   font-family: var(--font-tech);
 }
@@ -182,10 +180,6 @@ h2 {
   background-image: url('./assets/noise.png');
   background-repeat: repeat;
   z-index: 12;
-}
-
-canvas {
-  /* filter: blur(0.2vh); */
 }
 
 /* ------ loader ------ */
@@ -225,6 +219,7 @@ canvas {
   margin: 0.5em 0.5em 0.5em 0.5em;
   height: 1.5em;
   font-size: 0.8em;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -289,15 +284,20 @@ canvas {
   background-color: var(--inverse-font-color);
 }
 
-.btn {
+.tab {
   display: inline-block;
   user-select: none;
   flex: 0 0 100%;
   text-align: center;
-  line-height: 2.25em;
+  line-height: 2.25;
   border-top: 1px solid black;
 }
 
+@media screen and (max-width: 600px) {
+  .tab:first-child {
+    order: 3;
+  }
+}
 
 @media screen and (min-width: 600px) {
   .control-bar {
@@ -305,28 +305,22 @@ canvas {
     z-index: 11;
   }
 
-  .btn {
+  .tab {
     flex: 1 1 30%;
   }
 }
 
-@media screen and (max-width: 600px) {
-  .btn:first-child {
-    order: 3;
-  }
-}
-
-.btn:hover {
+.tab:hover {
   background-color: var(--main-font-color);
   color: white;
   font-weight: 400;
 }
 
-.btn-cntrls {
+.tab-cntrls {
   cursor: pointer;
 }
 
-.btn-close {
+.tab-close {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -336,14 +330,14 @@ canvas {
   text-align: center;
 }
 
-.btn.active {
+.tab.active {
   color: var(--inverse-font-color);
   background-color: var(--main-font-color);
   font-weight: 400;
 }
 
-.btn.active:hover,
-.btn:hover {
+.tab.active:hover,
+.tab:hover {
   background-color: var(--reddit-red);
   color: var(--inverse-font-color);
   font-weight: 400;
@@ -361,7 +355,7 @@ canvas {
   padding: 0;
   background-color: #FFFFFF;
   list-style: none;
-  z-index: 10;
+  z-index: 11;
   overflow-x: auto;
   overflow-y: scroll;
   border-bottom: 1px solid var(--main-font-color);
@@ -371,7 +365,7 @@ canvas {
   .tracklist {
     height: calc(100% - 2.25em);
     border-left: 1px solid var(--main-font-color);
-    width: auto;
+    width: clamp(480px, 50%, 600px);
   }
 }
 
@@ -399,7 +393,7 @@ canvas {
   top: 0;
   position: sticky;
   border-bottom: 1px solid var(--main-font-color);
-  line-height: 2.25em;
+  line-height: 2.25;
 }
 
 .tracklist__footer {
@@ -428,15 +422,27 @@ canvas {
 
 .controls {
   position: fixed;
+  left: 0;
+  top: 0;
   list-style: none;
   margin: 0;
   padding: 0;
-  width: 300px;
-  left: 0;
-  top: 0;
-  background-color: #FFFFFF;
-  z-index: 11;
+  width: 100%;
+  background-color: var(--inverse-font-color);
   border-right: 1px solid var(--main-font-color);
+  z-index: 10;
+}
+
+@media screen and (min-width: 400px) {
+  .controls {
+    width: 320px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .controls {
+    width: clamp(320px, 33%, 400px);
+  }
 }
 
 .controls__li {
@@ -451,7 +457,7 @@ canvas {
 .radio,
 .radiolabel {
   display: inline-block;
-  line-height: 2em;
+  line-height: 2;
   cursor: pointer;
 }
 
