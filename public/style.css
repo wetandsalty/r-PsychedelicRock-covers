@@ -233,7 +233,7 @@ h2 {
   top: 0;
   right: 0;
   text-align: right;
-  margin: 0.55em;
+  margin: 0.7em 0.5em;
   padding: 3px 4px;
   border-radius: 3px;
   font-weight: 400;
@@ -245,7 +245,7 @@ h2 {
 }
 
 .year1970s {
-  background-color: #ff4500;
+  background-color: var(--reddit-red);
 }
 
 .year1980s {
