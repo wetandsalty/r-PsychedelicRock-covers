@@ -18,6 +18,7 @@ let colorB = [];
 
 function preload() {
   font = loadFont('./assets/fonts/inter.otf', console.log("woo!"));
+  // font = loadFont('./assets/fonts/redditfont.ttf', console.log("woo!"));
 };
 
 // gets Spotify data from the server
@@ -206,6 +207,7 @@ function drawSpiral(r, dist, turns, fontsize, factor, angle) {
       shadowGlow( glow, glowColor );
     }
     text("⬆", 0, 0);
+    // text("\uF34D", 0, 0);
 
     pop();
 
