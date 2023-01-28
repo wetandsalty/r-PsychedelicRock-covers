@@ -1,18 +1,21 @@
 let data;
 let font;
 let canvasP = 72;
+let manual = false;
 
 let playlistLength;
-
-let manual = false;
 
 let danceability = [];
 let years = [];
 
+// first color
 let colorA = [];
+// second color
 let colorB = [];
+// glow color
+let colorG = [];
 
-spiral = [];
+let spiral = [];
 
 function preload() {
   font = loadFont('./assets/fonts/inter.otf', console.log("woo!"));
@@ -62,60 +65,115 @@ function handlingData() {
   let energy = [];
   let instrumentalness = [];
 
-  let cummulativeEnergy = 0;
   for (let i = 0; i < playlistLength; i++) {
     energy[i] = data.songs[i].energy;
     danceability[i] = data.songs[i].danceability;
     instrumentalness[i] = data.songs[i].instrumentalness;
     years[i] = (data.items[i].track.album.release_date).substring(0, 4);
-    cummulativeEnergy = Math.round(( cummulativeEnergy + energy[i] + Number.EPSILON) * 10) / 10;
   };
-  const averageEnergy = cummulativeEnergy / playlistLength;
-  energy.sort();
-  const energyRange = energy[playlistLength - 1] - energy[0];
-  console.log(
-    "average " + averageEnergy +
-    " | lowest " + energy[0] +
-    " | highest " + energy[playlistLength - 1] +
-    " | range " + energyRange
-  );
 
-  // spiral
-  spiral[2] = roundTo(map(energyRange, 0, 1, 1, 25), 10);
-  // fontsize
-  spiral[3] = roundTo(map(averageEnergy, 0, 1, 20, 14), 10);
-  // growth
-  spiral[4] = roundTo(map(averageEnergy, 0, 1, 0.025, 0.085), 1000);
+  shufflewaffle(energy);
 
-  setSliders(8, 100, spiral[2], spiral[3], spiral[4], 0);
+  const first = energy[0];
+  const last = energy[playlistLength - 1];
 
-  // setSliders(8, 100, spiral, 17, 0.06, 0);
+  if (last < 0.2) {
+    console.log( "Snail");
+    spiral[0] = 14;  // r
+    spiral[1] = round(map(first, 0, 1, 100, 72, true)); // dist
+    spiral[2] = round(map(first, 0.2, 1, 1, 2.7, true), 1); // spiral
+    spiral[4] = 0.072; // growth
 
-  // set colours of arrows:
+  } else if (last < 0.5) {
+    console.log( "Duo");
+    spiral[0] = 14; // r
+    spiral[1] = 82; // dist
+    spiral[2] = round(map(first, 0, 1, 11.5, 13.7, true), 1); //spiral
+    spiral[4] = 0.072; // growth
+
+  } else if (last < 0.7) {
+    console.log( "Trio");
+    spiral[0] = round(map(first, 0, 1, 8, 32, true)); // r
+    spiral[1] = round(map(first, 0, 1, 140, 72, true)); // dist
+
+    if ( last < 0.5 ) {
+      spiral[2] = round(map(first, 0.5, 1, 8.6, 9.2, true), 1);
+    } else {
+      spiral[2] = round(map(first, 0.1, 0.5, 7.4, 8.1, true), 1);
+    }
+    spiral[4] = 0.068; // growth
+
+  } else if (last < 0.9) {
+    console.log( "4er" );
+
+    if ( first < 0.25 ) {
+      spiral[2] = 5.7;
+    } else if ( first < 0.5 ) {
+      spiral[2] = 5.8;
+    } else if ( first < 0.75 ) {
+      spiral[2] = 6.7;
+    } else {
+      spiral[2] = 6.8;
+    }
+
+    spiral[0] = round(map(first, 0, 1, 6, 32, true)); // r
+    spiral[1] = round(map(first, 0, 1, 140, 72, true)); // dist
+    spiral[4] = round(map(first, 0, 1, 0.05, 0.08, true), 2); // growth
+
+  } else {
+    console.log( "5er" );
+    spiral[0] = round(map(first, 0, 1, 6, 32, true)); // r
+    spiral[1] = round(map(first, 0, 1, 140, 72, true)); // dist
+
+    if ( last < 0.25 ) {
+      spiral[2] = 9.6;
+    } else if ( last < 0.5 ) {
+      spiral[2] = 9.7;
+    } else if ( last < 0.75 ) {
+      spiral[2] = 10.3;
+    } else {
+      spiral[2] = 10.4; //4.5, 4.6, 3.8, 3.9
+    }
+    spiral[4] = round(map(last, 0, 1, 0.05, 0.08, true), 2); // growth
+  }
+
+  spiral[3] = 16; // fontsize
+  spiral[5] = 0;
+
+  setSliders(spiral);
+
+  // set colours of arrows and glow
   for (let i = 0; i < playlistLength; i++) {
     let year = years[i];
 
     if ( year < 1970 ) {
-      // console.log( year + " | 60s" );
-      colorA[i] = [39, 67, 83]; // "#D3A146"
+      // "#D3A146" – 60s
+      colorA[i] = [39, 67, 83];
+      colorG[i] = [39, 67, 83];
     } else if ( year >= 1970 && year < 1980 ) {
-      // console.log( year + " | 70s" );
-      colorA[i] = [16, 100, 100]; // "#ff4500"
+      // "#ff4500" – 70s
+      colorA[i] = [16, 100, 100];
+      colorG[i] = [16, 100, 100];
     } else if ( year >= 1980 && year < 1990 ) {
-      // console.log( year + " | 80s" );
-      colorA[i] = [227, 67, 87]; //"#4A6ADD"
+      //"#4A6ADD" – 80s
+      colorA[i] = [227, 67, 87];
+      colorG[i] = [227, 67, 87];
     } else if ( year >= 1990 && year < 2000 ) {
-      // console.log( year + " | 90s" );
-      colorA[i] = [51, 13, 22]; // "#383731"
+      // "#383731" – 90s
+      colorA[i] = [51, 13, 22];
+      colorG[i] = [227, 100, 60];
     } else if ( year >= 2000 && year < 2010 ) {
-      // console.log( year + " | 00s" );
-      colorA[i] = [116, 28, 47];// "#587756"
+      // "#587756" – 00s
+      colorA[i] = [116, 28, 47];
+      colorG[i] = [116, 28, 47];
     } else if ( year >= 2010 && year < 2020 ) {
-      // console.log( year + " | 10s" );
-      colorA[i] = [45, 18, 91]; // "#E8DEBF"
+      // "#E8DEBF" – 10s
+      colorA[i] = [45, 18, 91];
+      colorG[i] = [45, 18, 91];
     } else if ( year >= 2020 ) {
-      // console.log( year + " | 20s" );
-      colorA[i] = [304, 82, 100]; // "#FF2EF1" 255, 46, 241
+      // "#FF2EF1" 255, 46, 241 – 20s
+      colorA[i] = [304, 82, 100];
+      colorG[i] = [304, 82, 100];
     } else {
       // e.g. if year is "undefined":
       console.log( "Error! | year is '" + years[i] + "'" );
@@ -134,11 +192,6 @@ function handlingData() {
     }
     colorB[i] = cB;
   };
-}
-
-function roundTo( x, d ) {
-  let y = Math.round(( x + Number.EPSILON) * d) / d;
-  return y;
 }
 
 function btnClicked(e) {
@@ -166,7 +219,7 @@ function btnClicked(e) {
   toggleVisibility( document.getElementById("btnData") );
 }
 
-// p5.js draw function
+/* p5.js draw function */
 function draw() {
   // only run after data is loaded:
   if (data) {
@@ -187,7 +240,7 @@ function draw() {
 
 /*
  * use like this:
- * drawSpiral(w/r, w/dist, turns, w/fontsize, fontgrowth, angle);
+ * drawSpiral(w/r, w/dist, turns, w/fontsize, fontincrease, angle);
  */
 function drawSpiral(r, dist, turns, fontsize, factor, angle) {
   translate(width/2, height/2);
@@ -207,17 +260,16 @@ function drawSpiral(r, dist, turns, fontsize, factor, angle) {
 
     // font stuff
     textFont(font);
-    textSize(fontsize); /* REMOVED * 1.75 */
+    textSize(fontsize);
 
     // adding gradient fill
-    gradientFill( fontsize * 2 , fontsize * 2, colorA[i], colorB[i]);
+    gradientFill( fontsize * 1.25 , fontsize * 1.25, colorA[i], colorB[i]);
 
     // adding glow effect
     let blur = 0;
     if (danceability[i] > 0.25) {
       blur = Math.floor( map( danceability[i], 0.25, 0.8, 0, 80, true ) );
-      let glowColor = colorA[i];
-      shadowGlow(blur, glowColor);
+      shadowGlow(blur, colorG[i]);
     }
 
     // draw arrow
@@ -270,7 +322,7 @@ function addToList() {
   let pos = 1;
 
   for ( let i = 0; i < playlistLength; i++ ){
-    // create a ul tracklist element
+    // create a ul element
     const li = document.createElement("li");
     li.classList.add("tracklist__li");
 
@@ -289,7 +341,7 @@ function addToList() {
     spanEntry.appendChild( document.createTextNode( playlistentry ) );
     li.appendChild( spanEntry );
 
-    // add color
+    // add a span with the year and corresponding color
     const divColor = document.createElement("div");
     let year = years[i];
     divColor.classList.add("color", "year" + year.slice(0, -1) + "0s");
@@ -343,23 +395,23 @@ function toggleControls() {
 function changeRadio() {
   if ( this.value === 'true' ) {
     manual = true;
-    /* enable Sliders */
+    // enable Sliders
     document.querySelectorAll('.slider').forEach( function(slider) {
       slider.disabled = false;
     });
-    } else if ( this.value === 'false' ) {
+  } else if ( this.value === 'false' ) {
     manual = false;
 
-    // reset sliders
-    // setSliders(8, 100, spiral, 17, 0.06, 0);
-    // updateOutputs(8, 100, spiral, 17, 0.06, 0);
-    setSliders(8, 100, spiral[2], spiral[3], spiral[4], 0);
-    updateOutputs(8, 100, spiral[2], spiral[3], spiral[4], 0);
-
-    // disable sliders
+    // reset and disable sliders
+    let c1 = 0;
     document.querySelectorAll('.slider').forEach( function( s ) {
       s.disabled = true;
+      s.value = spiral[ c1 ],
+      c1 ++;
     });
+
+    // reset outputs
+    updateOutputs(spiral[0], spiral[1], spiral[2], spiral[3], spiral[4], spiral[5]);
   }
   redraw();
 }
@@ -368,20 +420,13 @@ function sliderChange(event) {
   redraw();
 }
 
-function setSliders(r, dist, turns, fontsize, factor, angle) {
+function setSliders(spiral) {
 
-  const rSlider = document.getElementById("sliderR");
-  rSlider.value = r;
-  const distSlider = document.getElementById("sliderDist");
-  distSlider.value = dist;
-  const spiralSlider = document.getElementById("sliderTurns");
-  spiralSlider.value = turns;
-  const fontsizeSlider = document.getElementById("sliderFontsize");
-  fontsizeSlider.value = fontsize;
-  const factorSlider = document.getElementById("sliderFact");
-  factorSlider.value = factor;
-  const angleSlider = document.getElementById("sliderAngle");
-  angleSlider.value = angle;
+  let c = 0;
+  document.querySelectorAll('.slider').forEach( function( s ) {
+    s.value = spiral[ c ],
+    c ++;
+  });
 }
 
 function updateOutputs(r, dist, turns, fontsize, factor, angle) {
@@ -398,4 +443,22 @@ function updateOutputs(r, dist, turns, fontsize, factor, angle) {
   factorOutput.innerHTML = factor;
   const angleOutput = document.getElementById("angleValue");
   angleOutput.innerHTML = angle;
+}
+
+
+/* shuffle function for testing */
+function shufflewaffle(array) {
+  let currentIndex = array.length,  randomIndex;
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+  return array;
 }
