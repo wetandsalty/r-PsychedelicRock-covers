@@ -72,39 +72,47 @@ function handlingData() {
     years[i] = (data.items[i].track.album.release_date).substring(0, 4);
   };
 
-  shufflewaffle(energy);
+  let first = energy[0];
+  let last = energy[playlistLength - 1];
 
-  const first = energy[0];
-  const last = energy[playlistLength - 1];
+  spiral[3] = 16; // fontsize
+  spiral[5] = 0;
+
+  console.log( "first: " + first + " | last: " + last );
+
+  // first = 0.46;
+  // last =  0.78;
 
   if (last < 0.2) {
-    console.log( "Snail");
+    console.log( "'Snail'");
     spiral[0] = 14;  // r
     spiral[1] = round(map(first, 0, 1, 100, 72, true)); // dist
     spiral[2] = round(map(first, 0.2, 1, 1, 2.7, true), 1); // spiral
     spiral[4] = 0.072; // growth
 
   } else if (last < 0.5) {
-    console.log( "Duo");
+    console.log( "'Duo'");
     spiral[0] = 14; // r
     spiral[1] = 82; // dist
     spiral[2] = round(map(first, 0, 1, 11.5, 13.7, true), 1); //spiral
     spiral[4] = 0.072; // growth
 
-  } else if (last < 0.7) {
-    console.log( "Trio");
-    spiral[0] = round(map(first, 0, 1, 8, 32, true)); // r
-    spiral[1] = round(map(first, 0, 1, 140, 72, true)); // dist
+  } else if (last < 0.8) {
+    console.log( "'Trio'");
+    spiral[0] = round(map(first, 0, 1, 8, 48, true)); // r
 
-    if ( last < 0.5 ) {
-      spiral[2] = round(map(first, 0.5, 1, 8.6, 9.2, true), 1);
+    if ( first < 0.5 ) {
+      spiral[1] = round(map(first, 0, 0.5, 58, 80, true)); // dist
+      spiral[2] = round(map(first, 0, 0.5, 8.6, 9.3, true), 1);
     } else {
-      spiral[2] = round(map(first, 0.1, 0.5, 7.4, 8.1, true), 1);
+      spiral[1] = round(map(first, 0.5, 1, 58, 74, true)); // dist
+      spiral[2] = map(first, 0.5, 1, 8.1, 7.4);
     }
+    spiral[3] = 14; // fontsize
     spiral[4] = 0.068; // growth
 
   } else if (last < 0.9) {
-    console.log( "4er" );
+    console.log( "'4er'" );
 
     if ( first < 0.25 ) {
       spiral[2] = 5.7;
@@ -121,7 +129,7 @@ function handlingData() {
     spiral[4] = round(map(first, 0, 1, 0.05, 0.08, true), 2); // growth
 
   } else {
-    console.log( "5er" );
+    console.log( "'5er'" );
     spiral[0] = round(map(first, 0, 1, 6, 32, true)); // r
     spiral[1] = round(map(first, 0, 1, 140, 72, true)); // dist
 
@@ -136,9 +144,6 @@ function handlingData() {
     }
     spiral[4] = round(map(last, 0, 1, 0.05, 0.08, true), 2); // growth
   }
-
-  spiral[3] = 16; // fontsize
-  spiral[5] = 0;
 
   setSliders(spiral);
 

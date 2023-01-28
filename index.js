@@ -20,7 +20,6 @@ app.get('/api', async (request, response) => {
 
   // ---------------------------------------------------------------------
   // getting a spotify access token
-  //*
   async function getToken() {
 
     // get the credentials out of the .env file
@@ -95,7 +94,6 @@ app.get('/api', async (request, response) => {
     ...tracks,
     ...songdetails
   };
-//  */
 
   // end live function
   // ---------------------------------------------------------------------
