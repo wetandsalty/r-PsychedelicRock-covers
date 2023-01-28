@@ -4,6 +4,7 @@
   "description": "A p5.js sketch that generates cover artwork based on a Spotify playlist.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +22,7 @@
   },
   "homepage": "https://github.com/wetandsalty/r-PsychedelicRock-covers#readme",
   "engines": {
-    "node": "^18.13.0"
+    "node": "^16.6.1"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
