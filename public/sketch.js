@@ -376,9 +376,6 @@ function toggleTracklist() {
   const div = document.getElementById("tabTracklist");
   div.classList.toggle("active");
 
-  const page = document.getElementById("page");
-  page.classList.toggle("noscroll");
-
   const x = document.getElementById("tracklist");
   toggleVisibility( x );
 }
@@ -391,9 +388,6 @@ function toggleControls() {
 
   const div = document.getElementById("tabControls");
   div.classList.toggle("active");
-
-  const page = document.getElementById("page");
-  page.classList.toggle("noscroll");
 
   const x = document.getElementById("controls");
   toggleVisibility( x );
