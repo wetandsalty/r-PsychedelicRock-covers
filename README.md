@@ -4,5 +4,6 @@ A p5.js sketch that generates a cover for a Spotify  [playlist](https://open.spo
 
 #### Built using...
 - [p5.js](https://p5js.org/)
-- [Spotify web API](https://developer.spotify.com/documentation/web-api/)
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
+- [express](https://www.npmjs.com/package/express)
 - Typefaces: [Work Sans](http://weiweihuanghuang.github.io/Work-Sans/), [BD Geminis](https://www.typedifferent.com/fonts/bd-geminis)
