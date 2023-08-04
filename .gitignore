@@ -1,7 +1,6 @@
 .env
 node_modules/
 .DS_Store
-public/assets/favicons/
 devdata.json
 devdata-.json
 devdata--.json
