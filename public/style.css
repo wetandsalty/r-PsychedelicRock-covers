@@ -19,13 +19,23 @@
   font-style: normal;
 }
 
+::selection {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
 :root {
   --font-tech: bd-geminis, sans-serif;
   --font-body: "Work Sans", sans-serif;
-  --main-font-color: #1A1A1A;
-  --inverse-font-color: #FFFFFF;
-  --reddit-red: #ff4500;
   --font-weight: 500;
+  --main-font-color: #1a1a1a;
+  --inverse-font-color: #ffffff;
+  --reddit-red: #ff4500;
 }
 
 *,
@@ -36,17 +46,8 @@
   /* -webkit-tap-highlight-color: rgba(255,255,255,0.4); */
 }
 
-::selection {
-  background: var(--main-font-color);
-  color: var(--inverse-font-color);
-}
-
-::-moz-selection {
-  background: var(--main-font-color);
-  color: var(--inverse-font-color);
-}
-
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -60,27 +61,18 @@ body {
   line-height: 1.25;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
 }
 
 .container {
-  height: 100%;
   width: 100%;
+  min-height: 100%;
   display: flex;
+  flex-flow: column;
   align-items: center;
-  justify-content: center;
-}
-
-@media screen and (min-width: 800px) {
-  .container {
-    padding: 4vh 0 0 0;
-  }
+  justify-content: flex-start;
 }
 
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   padding: 1.5rem 1.75rem;
   font-size: clamp(36px, 9vw, 120px);
@@ -89,19 +81,25 @@ header {
   z-index: 0;
 }
 
+@media screen and (min-width: 720px) {
+  .container {
+    height: 100%;
+    padding: 4vh 0 0 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
 header p {
   display: inline;
   margin: 0;
   padding: 0;
-}
-
-.header__link {
-  color: currentColor;
-  text-decoration: none;
-}
-
-.header__link:hover .arrow svg path {
-  fill: var(--reddit-red);
 }
 
 .arrow {
@@ -122,17 +120,26 @@ header p {
   fill: var(--main-font-color);
 }
 
+.header__link {
+  color: currentColor;
+  text-decoration: none;
+}
+
+.header__link:hover #arrow {
+  fill: var(--reddit-red);
+}
+
 .button {
   position: absolute;
   left: calc(50% - 3em);
   top: calc(50% - 1em);
-
   width: 6em;
   border: 0;
   border-radius: 3px;
   background: var(--inverse-font-color);
   color: var(--main-font-color);
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-body), sans-serif;
+  font-weight: var(--font-weight);
   font-size: 1em;
   line-height: 2.25;
   white-space: nowrap;
@@ -142,6 +149,12 @@ header p {
   z-index: 15;
 }
 
+.button:hover {
+  background: var(--reddit-red);
+  color: var(--inverse-font-color);
+  font-weight: 400;
+}
+
 .cover {
   position: relative;
   display: block;
@@ -149,11 +162,13 @@ header p {
   height: 72vmin;
   background: transparent;
   background: #1a1a1a;
-  box-shadow: 10px 10px 50px 0px rgba(0,0,0,0.5);
+  box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.5);
   z-index: 8;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 0;
   font-weight: 400;
   line-height: 1.25;
@@ -183,7 +198,7 @@ h2 {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: url('./assets/noise.png');
+  background-image: url("./assets/noise.png");
   background-repeat: repeat;
   z-index: 12;
 }
@@ -195,7 +210,6 @@ h2 {
   left: calc(50% - 1em);
   z-index: 11;
   color: transparent;
-
   width: 2em;
   height: 2em;
   border: 2px solid var(--inverse-font-color);
@@ -229,7 +243,7 @@ h2 {
   cursor: pointer;
 }
 
-.color:hover::after {
+.color::after {
   content: "released in...";
   display: block;
   position: fixed;
@@ -246,8 +260,18 @@ h2 {
   white-space: nowrap;
 }
 
+@media only screen and (min-width: 400px) {
+  .color::after {
+    display: none;
+  }
+}
+
+.color:hover::after {
+  display: block;
+}
+
 .year1960s {
-  background-color: #D3A146;
+  background-color: #d3a146;
 }
 
 .year1970s {
@@ -255,7 +279,7 @@ h2 {
 }
 
 .year1980s {
-  background-color: #4A6ADD;
+  background-color: #4a6add;
   color: var(--inverse-font-color);
 }
 
@@ -270,11 +294,11 @@ h2 {
 }
 
 .year2010s {
-  background-color: #E8DEBF;
+  background-color: #e8debf;
 }
 
 .year2020s {
-  background-color: #FF2EF1;
+  background-color: #ff2ef1;
 }
 
 /* ------ bottom "tab" bar ------ */
@@ -300,12 +324,6 @@ h2 {
   border-top: 1px solid black;
 }
 
-@media screen and (max-width: 600px) {
-  .tab:first-child {
-    order: 3;
-  }
-}
-
 @media screen and (min-width: 600px) {
   .control-bar {
     flex-flow: row;
@@ -317,13 +335,7 @@ h2 {
   }
 }
 
-.tab:hover {
-  background-color: var(--main-font-color);
-  color: white;
-  font-weight: 400;
-}
-
-.tab-Controls {
+.tab-controls {
   cursor: pointer;
 }
 
@@ -343,11 +355,16 @@ h2 {
   font-weight: 400;
 }
 
-.tab.active:hover,
-.tab:hover {
-  background-color: var(--reddit-red);
-  color: var(--inverse-font-color);
-  font-weight: 400;
+.▶ {
+  flex: 0 1 0.66em;
+  display: inline-block;
+  margin: 0 0.25em 0 0;
+}
+
+.▶ svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 .playlink {
@@ -359,19 +376,17 @@ h2 {
   overflow: hidden;
 }
 
-.playlink:hover svg path {
-  fill: var(--inverse-font-color);
-}
+@media only screen and (min-width: 480px) {
+  .tab.active:hover,
+  .tab:hover {
+    background-color: var(--reddit-red);
+    color: var(--inverse-font-color);
+    font-weight: 400;
+  }
 
-.▶ {
-  flex: 0 1 0.66em;
-  display: inline-block;
-  margin: 0 0.25em 0 0;
-}
-
-.▶ svg {
-  width: 100%;
-  height: 100%;
+  .playlink:hover svg path {
+    fill: var(--inverse-font-color);
+  }
 }
 
 /* ------ tracklist ------ */
@@ -380,11 +395,11 @@ h2 {
   position: fixed;
   right: 0;
   top: 0;
-  height: calc(100% - 4.5em);
+  height: calc(100% - 2.25em);
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   list-style: none;
   z-index: 11;
   overflow-x: auto;
@@ -461,22 +476,31 @@ h2 {
   top: 0;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 4em 0;
   width: 100%;
+  height: calc(100% - 4.5em - 1px);
   background-color: var(--inverse-font-color);
-  border-right: 1px solid var(--main-font-color);
-  z-index: 10;
-}
-
-@media screen and (min-width: 400px) {
-  .controls {
-    width: 320px;
-  }
+  border-bottom: 1px solid var(--main-font-color);
+  overflow-x: auto;
+  overflow-y: scroll;
+  z-index: 9;
 }
 
 @media screen and (min-width: 600px) {
   .controls {
-    width: clamp(320px, 33%, 400px);
+    height: auto;
+    height: calc(100% - 2.25em);
+    width: clamp(320px, 33.4%, 400px);
+    padding-bottom: 0;
+    border-right: 1px solid var(--main-font-color);
+    border-bottom: none;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .controls {
+    height: auto;
+    max-height: calc(100% - 2.25em);
   }
 }
 
@@ -507,9 +531,22 @@ h2 {
 
 .slider {
   width: 100%;
+  height: 2.75em;
   margin: 0.25em 0 0 0;
+}
+
+@media screen and (min-width: 800px) {
+  .slider {
+    height: 1.5em;
+  }
 }
 
 output {
   float: right;
+}
+
+/* ------------- */
+
+.noscroll {
+  overflow: hidden;
 }

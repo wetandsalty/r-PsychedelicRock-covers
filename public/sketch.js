@@ -76,12 +76,9 @@ function handlingData() {
   let last = energy[playlistLength - 1];
 
   spiral[3] = 16; // fontsize
-  spiral[5] = 0;
+  spiral[5] = 0; // angle
 
   console.log( "first: " + first + " | last: " + last );
-
-  // first = 0.46;
-  // last =  0.78;
 
   if (last < 0.2) {
     console.log( "'Snail'");
@@ -379,6 +376,9 @@ function toggleTracklist() {
   const div = document.getElementById("tabTracklist");
   div.classList.toggle("active");
 
+  const page = document.getElementById("page");
+  page.classList.toggle("noscroll");
+
   const x = document.getElementById("tracklist");
   toggleVisibility( x );
 }
@@ -391,6 +391,9 @@ function toggleControls() {
 
   const div = document.getElementById("tabControls");
   div.classList.toggle("active");
+
+  const page = document.getElementById("page");
+  page.classList.toggle("noscroll");
 
   const x = document.getElementById("controls");
   toggleVisibility( x );
