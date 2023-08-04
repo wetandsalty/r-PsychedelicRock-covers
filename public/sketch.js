@@ -61,23 +61,24 @@ async function getData() {
 function handlingData() {
   playlistLength = data.items.length;
 
-  let cummulativeEnergy = 0;
+  // let cummulativeEnergy = 0;
   for (let i = 0; i < playlistLength; i++) {
     energy[i] = data.songs[i].energy;
     danceability[i] = data.songs[i].danceability;
     instrumentalness[i] = data.songs[i].instrumentalness;
     years[i] = (data.items[i].track.album.release_date).substring(0, 4);
-
-    cummulativeEnergy = Math.round(( cummulativeEnergy + energy[i] + Number.EPSILON) * 10) / 10;
+    // cummulativeEnergy = Math.round(( cummulativeEnergy + energy[i] + Number.EPSILON) * 10) / 10;
   };
+  // const averageEnergy = cummulativeEnergy / playlistLength;
 
-  const averageEnergy = cummulativeEnergy / playlistLength;
-  spiral = Math.round(( 25/cummulativeEnergy + Number.EPSILON) * 10) / 10;
-  console.log( "total " + cummulativeEnergy + " | average " + averageEnergy + " | spiral " + spiral );
+  energy.sort();
+  const energyRange = energy[playlistLength - 1] - energy[0];
+  // console.log( "lowest " + energy[0] + " | highest " + energy[playlistLength - 1] + " | range " + energyRange);
 
-  // define Spiral type here?
+  let val = map(energyRange, 0, 1, 1, 25);
+  spiral = Math.round(( val + Number.EPSILON) * 10) / 10;
 
-  setSliders(8, 100, spiral, 24, 0.06, 0);
+  setSliders(8, 100, spiral, 17, 0.06, 0);
 
   // set colours of arrows:
   for (let i = 0; i < playlistLength; i++) {
@@ -151,27 +152,20 @@ function btnClicked(e) {
 
 // p5.js draw function
 function draw() {
-  let w = width;
-  background(0, 0, 10);
-
   // only run after data is loaded:
   if (data) {
-    if (manual) {
-      let r = document.getElementById("sliderR").value;
-      let dist = document.getElementById("sliderDist").value;
-      let turns = document.getElementById("sliderTurns").value;
-      let fontsize = document.getElementById("sliderFontsize").value;
-      let factor = document.getElementById("sliderFact").value;
-      let angle = document.getElementById("sliderAngle").value;
+    let w = width;
+    background(0, 0, 10);
 
-      drawSpiral(w/r, w/dist, turns, w/fontsize, factor, angle);
-      // drawSpiral(r, dist, turns, fontsize, factor, angle);
+    let r = document.getElementById("sliderR").value;
+    let dist = document.getElementById("sliderDist").value;
+    let turns = document.getElementById("sliderTurns").value;
+    let fontsize = document.getElementById("sliderFontsize").value;
+    let factor = document.getElementById("sliderFact").value;
+    let angle = document.getElementById("sliderAngle").value;
 
-      updateOutputs(r, dist, turns, fontsize, factor, angle);
-    } else {
-      drawSpiral(w/8, w/100, spiral, w/24, 0.06, 0);
-      updateOutputs(8, 100, spiral, 24, 0.06, 0);
-    }
+    drawSpiral(w/r, w/dist, turns, w/fontsize, factor, angle);
+    updateOutputs(r, dist, turns, fontsize, factor, angle);
   }
 }
 
@@ -342,7 +336,11 @@ function changeRadio() {
     } else if ( this.value === 'false' ) {
     manual = false;
 
-    /* disable sliders */
+    // reset sliders
+    setSliders(8, 100, spiral, 17, 0.06, 0);
+    updateOutputs(8, 100, spiral, 17, 0.06, 0);
+
+    // disable sliders
     document.querySelectorAll('.slider').forEach( function( s ) {
       s.disabled = true;
     });
