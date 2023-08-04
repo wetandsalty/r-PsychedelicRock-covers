@@ -1,0 +1,28 @@
+{
+  "name": "r-psychedelicrock-covers",
+  "version": "1.0.0",
+  "description": "A p5.js sketch that generates cover artwork based on a Spotify playlist.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wetandsalty/r-PsychedelicRock-covers.git"
+  },
+  "keywords": [
+    "p5.js",
+    "spotify-web-api"
+  ],
+  "author": "Elena Bauer",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/wetandsalty/r-PsychedelicRock-covers/issues"
+  },
+  "homepage": "https://github.com/wetandsalty/r-PsychedelicRock-covers#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7"
+  }
+}

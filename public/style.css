@@ -1,0 +1,474 @@
+/* replace with svg */
+@font-face {
+  font-family: "Inter";
+  src: url(./assets/fonts/inter.otf);
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Work Sans";
+  src: url(./assets/fonts/WorkSans-Regular.otf);
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Work Sans";
+  src: url(./assets/fonts/WorkSans-Medium.otf);
+  font-weight: 500;
+  font-style: normal;
+}
+
+:root {
+  --font-tech: bd-geminis, sans-serif;
+  --font-meta: "Work Sans", sans-serif;
+  --main-font-color: #1A1A1A;
+  --inverse-font-color: #FFFFFF;
+  --reddit-red: #ff4500;
+  --font-weight: 500;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  /* Chrome active link highlight color */
+  /* -webkit-tap-highlight-color: rgba(255,255,255,0.4); */
+}
+
+::selection {
+  background: var(--main-font-color);
+  color: var(--inverse-font-color);
+}
+
+::-moz-selection {
+  background: var(--main-font-color);
+  color: var(--inverse-font-color);
+}
+
+/* remove again ? */
+
+.button {
+  position: absolute;
+  left: calc(50% - 3em);
+  top: calc(50% - 1em);
+
+  width: 6em;
+  border: 0;
+  border-radius: 3px;
+  background: var(--inverse-font-color);
+  color: var(--main-font-color);
+  font-family: system-ui, sans-serif;
+  font-size: 1em;
+  line-height: 2.25em;
+  white-space: nowrap;
+  text-decoration: none;
+  margin: 0;
+  cursor: pointer;
+  z-index: 15;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: white;
+  color: var(--main-font-color);
+  font-family: var(--font-meta);
+  font-size: clamp(18px, 2.75vmin, 24px);
+  font-weight: 500;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (min-width: 800px) {
+  .container {
+    padding: 4vh 0 0 0;
+  }
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 1.75rem;
+  font-size: clamp(36px, 9vw, 120px);
+  line-height: 1em;
+  font-family: var(--font-tech);
+  z-index: 0;
+}
+
+.⬆ {
+  content: '⬆';
+  position: relative;
+  display: inline;
+  font-family: "Inter";
+  font-size: 1em;
+  top: -0.025em;
+  left: -0.25em;
+  margin-right: -8px;
+}
+
+.⬆:hover {
+  color: var(--reddit-red);
+}
+
+header p {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.header__link {
+  color: currentColor;
+  text-decoration: none;
+}
+
+.cover {
+  position: relative;
+  display: block;
+  flex: 0 0 72vmin;
+  height: 72vmin;
+  background: transparent;
+  background: #1a1a1a;
+  box-shadow: 10px 10px 50px 0px rgba(0,0,0,0.5);
+  z-index: 8;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 2.5em;
+  line-height: 1.25em;
+  font-family: var(--font-tech);
+}
+
+h2 {
+  font-size: 1.75em;
+  line-height: 1.25em;
+  margin: 0 0 0.5em 0;
+  font-family: var(--font-tech);
+}
+
+#canvas {
+  display: block;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#canvas::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url('./assets/noise.png');
+  background-repeat: repeat;
+  z-index: 12;
+}
+
+canvas {
+  /* filter: blur(0.2vh); */
+}
+
+/* ------ loader ------ */
+
+#p5_loading {
+  top: calc(50% - 1em);
+  left: calc(50% - 1em);
+  z-index: 11;
+  color: transparent;
+
+  width: 2em;
+  height: 2em;
+  border: 2px solid var(--inverse-font-color);
+  border-bottom-color: var(--main-font-color);
+  border-left-color: var(--main-font-color);
+  border-right-color: var(--main-font-color);
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------ songs "key" ------ */
+
+.color {
+  display: block;
+  padding: 3px;
+  border-radius: 3px 4px;
+  margin: 0.5em 0.5em 0.5em 0.5em;
+  height: 1.5em;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.color:hover::after {
+  content: "released in...";
+  display: block;
+  position: fixed;
+  z-index: 12;
+  background-color: var(--main-font-color);
+  color: var(--inverse-font-color);
+  top: 0;
+  right: 0;
+  text-align: right;
+  margin: 0.55em;
+  padding: 3px 4px;
+  border-radius: 3px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.year1960s {
+  background-color: #D3A146;
+}
+
+.year1970s {
+  background-color: #ff4500;
+}
+
+.year1980s {
+  background-color: #4A6ADD;
+}
+
+.year1990s {
+  background-color: #383731;
+  color: var(--inverse-font-color);
+}
+
+.year2000s {
+  background-color: #587756;
+  color: var(--inverse-font-color);
+}
+
+.year2010s {
+  background-color: #E8DEBF;
+}
+
+.year2020s {
+  background-color: #FF2EF1;
+}
+
+/* ------ bottom "tab" bar ------ */
+
+.control-bar {
+  position: fixed;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 8;
+  background-color: var(--inverse-font-color);
+}
+
+.btn {
+  display: inline-block;
+  user-select: none;
+  flex: 0 0 100%;
+  text-align: center;
+  line-height: 2.25em;
+  border-top: 1px solid black;
+}
+
+
+@media screen and (min-width: 600px) {
+  .control-bar {
+    flex-flow: row;
+    z-index: 11;
+  }
+
+  .btn {
+    flex: 1 1 30%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .btn:first-child {
+    order: 3;
+  }
+}
+
+.btn:hover {
+  background-color: var(--main-font-color);
+  color: white;
+  font-weight: 400;
+}
+
+.btn-cntrls {
+  cursor: pointer;
+}
+
+.btn-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn.active {
+  color: var(--inverse-font-color);
+  background-color: var(--main-font-color);
+  font-weight: 400;
+}
+
+.btn.active:hover,
+.btn:hover {
+  background-color: var(--reddit-red);
+  color: var(--inverse-font-color);
+  font-weight: 400;
+}
+
+/* ------ tracklist ------ */
+
+.tracklist {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: calc(100% - 4.5em);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+  list-style: none;
+  z-index: 10;
+  overflow-x: auto;
+  overflow-y: scroll;
+  border-bottom: 1px solid var(--main-font-color);
+}
+
+@media screen and (min-width: 600px) {
+  .tracklist {
+    height: calc(100% - 2.25em);
+    border-left: 1px solid var(--main-font-color);
+    width: auto;
+  }
+}
+
+.tracklist__li {
+  display: flex;
+  margin: 0;
+  min-height: 2.25em;
+  border-bottom: 1px solid var(--main-font-color);
+  transition: flex 0.4s ease;
+  align-items: baseline;
+}
+
+.tracklist__li:nth-last-child(2) {
+  margin-bottom: 4em;
+}
+
+.tracklist__header,
+.tracklist__footer {
+  background-color: var(--inverse-font-color);
+  height: 2.25em;
+  text-align: center;
+}
+
+.tracklist__header {
+  top: 0;
+  position: sticky;
+  border-bottom: 1px solid var(--main-font-color);
+  line-height: 2.25em;
+}
+
+.tracklist__footer {
+  display: none;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 2.25em;
+  border-bottom: none;
+  border-top: 1px solid var(--main-font-color);
+}
+
+.tracklist .number {
+  display: block;
+  height: 100%;
+  flex: 0 0 2.5em;
+  padding: 0.5em 0 0.5em 0.5em;
+}
+
+.tracklist .track {
+  flex: 1 1 100%;
+  padding: 0.5em 0.5em 0.5em 0;
+}
+
+/* ------ slider controls ------ */
+
+.controls {
+  position: fixed;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  left: 0;
+  top: 0;
+  background-color: #FFFFFF;
+  z-index: 11;
+  border-right: 1px solid var(--main-font-color);
+}
+
+.controls__li {
+  padding: 0.75em 0.75em 0.5em 0.75em;
+  border-bottom: 1px solid var(--main-font-color);
+}
+
+.radiogroup {
+  display: block;
+}
+
+.radio,
+.radiolabel {
+  display: inline-block;
+  line-height: 2em;
+  cursor: pointer;
+}
+
+.radiolabel {
+  padding: 0 1em 0 0;
+}
+
+.sliderlabel {
+  float: left;
+  display: block;
+}
+
+.slider {
+  width: 100%;
+  margin: 0.25em 0 0 0;
+}
+
+output {
+  float: right;
+}

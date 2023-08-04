@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png" sizes="96x96">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <title>r/PsychedelicRock | Top weekly posts</title>
+
+    <link rel="icon" href="favicon.png" sizes="96x96">
+
+    <!-- loading normalize, fonts and stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://use.typekit.net/rbo0ced.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- loading p5.js libraries -->
+    <script src="./libs/p5.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a class="header__link" href="https://reddit.com/r/psychedelicrock" target="_blank" title="Visit subreddit">
+        <span class="⬆">⬆</span></a><p>r/Psych&shy;edelic&shy;Rock playlist</p>
+      </header>
+
+      <section class="cover">
+        <button class="button" id="btnData" onclick="btnClicked()">get data</button>
+        <div id="canvas">
+        </div>
+      </section>
+
+      <ul class="controls" id="controls" style="display: none;">
+        <li class="controls__li">
+          <legend class="legend">Controls</legend>
+          <div class="radiogroup">
+            <input type="radio" class="radio" id="manual-off" name="manual" value="false" checked />
+            <label class="radiolabel" for="manual-off">auto</label>
+
+            <input type="radio" class="radio" id="manual-on" name="manual" value="true" />
+            <label class="radiolabel" for="manual-on">manual</label>
+          </div>
+        </li>
+        <li class="controls__li">
+          <label class="sliderlabel">radius</label>
+          <output id="rValue"></output>
+
+          <input type="range" min="2" max="120" step="1" value="8" class="slider" id="sliderR" oninput="sliderChange()" disabled>
+        </li>
+        <li class="controls__li">
+          <label class="sliderlabel">distance</label>
+          <output id="distValue"></output>
+
+          <input type="range" min="1" max="400" step="1" value="100" class="slider" id="sliderDist" oninput="sliderChange()" disabled>
+        </li>
+        <li class="controls__li">
+          <label class="sliderlabel">spiral</label>
+          <output id="turnsValue"></output>
+
+          <input type="range" min="1" max="25" step="0.1" value="1" class="slider" id="sliderTurns" oninput="sliderChange()" disabled>
+        </li>
+        <li class="controls__li">
+          <label class="sliderlabel">arrow size</label>
+          <output id="fontValue"></output>
+
+          <input type="range" min="8" max="100" step="1" value="24" class="slider" id="sliderFontsize" oninput="sliderChange()" disabled>
+        </li>
+        <li class="controls__li">
+          <label class="sliderlabel">growth factor</label>
+          <output id="growthValue"></output>
+
+          <input type="range" min="0" max="0.2" step="0.001" value="0.06" class="slider" id="sliderFact" oninput="sliderChange()" disabled>
+        </li>
+        <li class="controls__li">
+          <label class="sliderlabel">rotation</label>
+          <output id="angleValue"></output>
+
+          <input type="range" min="0" max="12" step="0.1" value="0" class="slider" id="sliderAngle" oninput="sliderChange()" disabled>
+        </li>
+      </div>
+
+      <ul class="tracklist" id="tracklist" style="display: none;">
+        <li class="tracklist__header">tracklist</li>
+        <li class="tracklist__footer">
+          <a onclick="toggleTracklist()" class="btn-close">close</a>
+        </li>
+      </ul>
+
+      <footer class="control-bar">
+        <div class="btn">
+          <a class="header__link" href="https://open.spotify.com/playlist/13REVO8Q6DbIqQVL9brrkA?si=8631ec5a2b674634" target="_blank" title="Listen on Spotify">
+            <span class="▶">▶</span> Listen on Spotify
+          </a>
+        </div>
+
+        <div class="btn" id="btnCntrls">
+          <a class="btn-cntrls" id="hideCntrls" onclick="toggleCntrls()" style="display: none;">
+            hide controls
+          </a>
+          <a class="btn-cntrls visible" id="showCntrls" onclick="toggleCntrls()">
+            show controls
+          </a>
+        </div>
+
+        <div class="btn" id="btnTrcklst">
+          <a class="btn-cntrls" id="hideTracklist" onclick="toggleTracklist()" style="display: none;">
+            hide tracklist
+          </a>
+          <a class="btn-cntrls visible" id="showTracklist" onclick="toggleTracklist()">
+            show tracklist
+          </a>
+        </div>
+      </footer>
+
+    </div>
+
+    <script src="sketch.js"></script>
+  </body>
+</html>
