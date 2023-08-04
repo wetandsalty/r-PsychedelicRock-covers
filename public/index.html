@@ -19,26 +19,15 @@
     <link rel="icon" href="assets/favicons/favicon-32.png" sizes="32x32" />
     <link rel="icon" href="assets/favicons/favicon-16.png" sizes="16x16" />
 
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: light)"
-      content="#FFFFFF"
-    />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: dark)"
-      content="#1A1A1A"
-    />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1A1A1A" />
 
     <!-- loading normalize, fonts and stylesheet -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
     <link rel="stylesheet" href="https://use.typekit.net/rbo0ced.css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
 
-    <!-- loading p5.js libraries -->
+    <!-- loading p5.js libs -->
     <script src="./libs/p5.min.js"></script>
   </head>
   <body class="body" id="page">
@@ -235,7 +224,7 @@
       </ul>
     </main>
 
-    <footer class="control-bar">
+    <footer class="tabbar">
       <div class="tab">
         <a
           class="playlink"
@@ -266,7 +255,7 @@
       </div>
       <div class="tab" id="tabControls">
         <a
-          class="tab-controls"
+          class="tab__controls"
           id="hideControls"
           onclick="toggleControls()"
           style="display: none"
@@ -274,7 +263,7 @@
           hide controls
         </a>
         <a
-          class="tab-controls visible"
+          class="tab__controls visible"
           id="showControls"
           onclick="toggleControls()"
         >
@@ -283,7 +272,7 @@
       </div>
       <div class="tab" id="tabTracklist">
         <a
-          class="tab-controls"
+          class="tab__controls"
           id="hideTracklist"
           onclick="toggleTracklist()"
           style="display: none"
@@ -291,7 +280,7 @@
           hide tracklist
         </a>
         <a
-          class="tab-controls visible"
+          class="tab__controls visible"
           id="showTracklist"
           onclick="toggleTracklist()"
         >

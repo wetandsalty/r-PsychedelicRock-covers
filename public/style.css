@@ -36,7 +36,6 @@ body.dark {
   --font-color-inverse: #161616;
   --overlay-color: #1A1A1A;
   --line-color: #808080;
-  --reddit-red: #FF4500;
 }
 
 /* Styles for users who prefer dark mode at the OS level */
@@ -61,7 +60,6 @@ body.dark {
   --font-color-inverse: #FFFFFF;
   --overlay-color: #FFFFFF;
   --line-color: #1A1A1A;
-  --reddit-red: #FF4500;
  }
 }
 
@@ -308,7 +306,7 @@ h3 {
 
 /* ------ bottom "tab" bar ------ */
 
-.control-bar {
+.tabbar {
   position: fixed;
   display: flex;
   flex-flow: column;
@@ -330,7 +328,7 @@ h3 {
 }
 
 @media screen and (min-width: 600px) {
-  .control-bar {
+  .tabbar {
     flex-flow: row;
     z-index: 11;
   }
@@ -345,7 +343,7 @@ h3 {
   }
 }
 
-.tab-controls {
+.tab__controls {
   cursor: pointer;
 }
 
