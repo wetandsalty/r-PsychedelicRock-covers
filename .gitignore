@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 public/assets/fonts/
 public/assets/favicons/
+devdata.json
+devdata01.json

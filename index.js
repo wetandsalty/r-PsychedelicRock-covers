@@ -107,8 +107,9 @@ app.get('/api', async (request, response) => {
     return data;
   };
 
-  // const allthedata = await getTestData();
+  // const testdata = await getTestData();
 
   // give client the data as response
   response.json( allthedata );
+  // response.json( testdata );
 });

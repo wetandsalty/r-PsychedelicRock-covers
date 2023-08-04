@@ -6,15 +6,13 @@ let playlistLength;
 
 let manual = false;
 
-let energy = [];
 let danceability = [];
-let instrumentalness = [];
 let years = [];
-
-let spiral;
 
 let colorA = [];
 let colorB = [];
+
+spiral = [];
 
 function preload() {
   font = loadFont('./assets/fonts/inter.otf', console.log("woo!"));
@@ -61,24 +59,37 @@ async function getData() {
 function handlingData() {
   playlistLength = data.items.length;
 
-  // let cummulativeEnergy = 0;
+  let energy = [];
+  let instrumentalness = [];
+
+  let cummulativeEnergy = 0;
   for (let i = 0; i < playlistLength; i++) {
     energy[i] = data.songs[i].energy;
     danceability[i] = data.songs[i].danceability;
     instrumentalness[i] = data.songs[i].instrumentalness;
     years[i] = (data.items[i].track.album.release_date).substring(0, 4);
-    // cummulativeEnergy = Math.round(( cummulativeEnergy + energy[i] + Number.EPSILON) * 10) / 10;
+    cummulativeEnergy = Math.round(( cummulativeEnergy + energy[i] + Number.EPSILON) * 10) / 10;
   };
-  // const averageEnergy = cummulativeEnergy / playlistLength;
-
+  const averageEnergy = cummulativeEnergy / playlistLength;
   energy.sort();
   const energyRange = energy[playlistLength - 1] - energy[0];
-  // console.log( "lowest " + energy[0] + " | highest " + energy[playlistLength - 1] + " | range " + energyRange);
+  console.log(
+    "average " + averageEnergy +
+    " | lowest " + energy[0] +
+    " | highest " + energy[playlistLength - 1] +
+    " | range " + energyRange
+  );
 
-  let val = map(energyRange, 0, 1, 1, 25);
-  spiral = Math.round(( val + Number.EPSILON) * 10) / 10;
+  // spiral
+  spiral[2] = roundTo(map(energyRange, 0, 1, 1, 25), 10);
+  // fontsize
+  spiral[3] = roundTo(map(averageEnergy, 0, 1, 20, 14), 10);
+  // growth
+  spiral[4] = roundTo(map(averageEnergy, 0, 1, 0.025, 0.085), 1000);
 
-  setSliders(8, 100, spiral, 17, 0.06, 0);
+  setSliders(8, 100, spiral[2], spiral[3], spiral[4], 0);
+
+  // setSliders(8, 100, spiral, 17, 0.06, 0);
 
   // set colours of arrows:
   for (let i = 0; i < playlistLength; i++) {
@@ -123,6 +134,11 @@ function handlingData() {
     }
     colorB[i] = cB;
   };
+}
+
+function roundTo( x, d ) {
+  let y = Math.round(( x + Number.EPSILON) * d) / d;
+  return y;
 }
 
 function btnClicked(e) {
@@ -271,9 +287,7 @@ function addToList() {
     const spanEntry = document.createElement("span");
     spanEntry.classList.add("track");
     spanEntry.appendChild( document.createTextNode( playlistentry ) );
-
     li.appendChild( spanEntry );
-    // ul.appendChild( li );
 
     // add color
     const divColor = document.createElement("div");
@@ -337,8 +351,10 @@ function changeRadio() {
     manual = false;
 
     // reset sliders
-    setSliders(8, 100, spiral, 17, 0.06, 0);
-    updateOutputs(8, 100, spiral, 17, 0.06, 0);
+    // setSliders(8, 100, spiral, 17, 0.06, 0);
+    // updateOutputs(8, 100, spiral, 17, 0.06, 0);
+    setSliders(8, 100, spiral[2], spiral[3], spiral[4], 0);
+    updateOutputs(8, 100, spiral[2], spiral[3], spiral[4], 0);
 
     // disable sliders
     document.querySelectorAll('.slider').forEach( function( s ) {
