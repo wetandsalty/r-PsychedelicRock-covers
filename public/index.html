@@ -54,47 +54,41 @@
         <li class="controls__li">
           <legend class="legend">Controls</legend>
           <div class="radiogroup">
-            <input type="radio" class="radio" id="manual-off" name="manual" value="false" checked />
+            <input type="radio" class="radio" id="manual-off" name="manual" value="false" checked disabled />
             <label class="radiolabel" for="manual-off">auto</label>
 
-            <input type="radio" class="radio" id="manual-on" name="manual" value="true" />
+            <input type="radio" class="radio" id="manual-on" name="manual" value="true" disabled />
             <label class="radiolabel" for="manual-on">manual</label>
           </div>
         </li>
         <li class="controls__li">
           <label class="sliderlabel">radius</label>
           <output id="rValue"></output>
-
-          <input type="range" min="2" max="120" step="1" value="8" class="slider" id="sliderR" oninput="sliderChange()" disabled>
+          <input type="range" min="3" max="120" step="1" value="3" class="slider" id="sliderR" oninput="sliderChange()" disabled>
         </li>
         <li class="controls__li">
           <label class="sliderlabel">distance</label>
           <output id="distValue"></output>
-
-          <input type="range" min="1" max="400" step="1" value="100" class="slider" id="sliderDist" oninput="sliderChange()" disabled>
+          <input type="range" min="50" max="400" step="1" value="50" class="slider" id="sliderDist" oninput="sliderChange()" disabled>
         </li>
         <li class="controls__li">
           <label class="sliderlabel">spiral</label>
           <output id="turnsValue"></output>
-
           <input type="range" min="1" max="25" step="0.1" value="1" class="slider" id="sliderTurns" oninput="sliderChange()" disabled>
         </li>
         <li class="controls__li">
           <label class="sliderlabel">arrow size</label>
           <output id="fontValue"></output>
-
-          <input type="range" min="8" max="100" step="1" value="24" class="slider" id="sliderFontsize" oninput="sliderChange()" disabled>
+          <input type="range" min="8" max="100" step="1" value="8" class="slider" id="sliderFontsize" oninput="sliderChange()" disabled>
         </li>
         <li class="controls__li">
           <label class="sliderlabel">growth factor</label>
           <output id="growthValue"></output>
-
-          <input type="range" min="0" max="0.2" step="0.001" value="0.06" class="slider" id="sliderFact" oninput="sliderChange()" disabled>
+          <input type="range" min="0" max="0.2" step="0.001" value="0" class="slider" id="sliderFact" oninput="sliderChange()" disabled>
         </li>
         <li class="controls__li">
           <label class="sliderlabel">rotation</label>
           <output id="angleValue"></output>
-
           <input type="range" min="0" max="12" step="0.1" value="0" class="slider" id="sliderAngle" oninput="sliderChange()" disabled>
         </li>
       </div>
@@ -126,20 +120,20 @@
           </a>
         </div>
 
-        <div class="tab" id="tabCntrls">
-          <a class="tab-cntrls" id="hideCntrls" onclick="toggleCntrls()" style="display: none;">
+        <div class="tab" id="tabControls">
+          <a class="tab-controls" id="hideControls" onclick="toggleControls()" style="display: none;">
             hide controls
           </a>
-          <a class="tab-cntrls visible" id="showCntrls" onclick="toggleCntrls()">
+          <a class="tab-controls visible" id="showControls" onclick="toggleControls()">
             show controls
           </a>
         </div>
 
         <div class="tab" id="tabTracklist">
-          <a class="tab-cntrls" id="hideTracklist" onclick="toggleTracklist()" style="display: none;">
+          <a class="tab-controls" id="hideTracklist" onclick="toggleTracklist()" style="display: none;">
             hide tracklist
           </a>
-          <a class="tab-cntrls visible" id="showTracklist" onclick="toggleTracklist()">
+          <a class="tab-controls visible" id="showTracklist" onclick="toggleTracklist()">
             show tracklist
           </a>
         </div>

@@ -18,19 +18,11 @@ let colorB = [];
 
 function preload() {
   font = loadFont('./assets/fonts/inter.otf', console.log("woo!"));
-  // font = loadFont('./assets/fonts/redditfont.ttf', console.log("woo!"));
 };
-
-// gets Spotify data from the server
-async function getData() {
-  // fetch data from proxy server
-  const api_url = '/api';
-  const response = await fetch( api_url );
-  data = await response.json();
-}
 
 // p5.js setup function
 function setup() {
+  // setup canvas
   let cnv;
   pixelDensity(2.0);
   if (windowHeight < windowWidth) {
@@ -45,17 +37,31 @@ function setup() {
   noStroke();
   noLoop();
 
-  /* set up radio buttons */
+  // setup radio buttons
   let radios = document.querySelectorAll('input[type=radio][name="manual"]');
   Array.prototype.forEach.call(radios, function(radio) {
      radio.addEventListener('change', changeRadio);
   });
+  // reset to "auto"
+  radios[0].checked = true;
+  // make sure sliders are disabled
+  document.querySelectorAll('.slider').forEach( function( s ) {
+    s.disabled = true;
+  });
+}
+
+// gets Spotify data
+async function getData() {
+  // fetch data from proxy server
+  const api_url = '/api';
+  const response = await fetch( api_url );
+  data = await response.json();
 }
 
 function handlingData() {
   playlistLength = data.items.length;
-  let cummulativeEnergy = 0;
 
+  let cummulativeEnergy = 0;
   for (let i = 0; i < playlistLength; i++) {
     energy[i] = data.songs[i].energy;
     danceability[i] = data.songs[i].danceability;
@@ -68,6 +74,10 @@ function handlingData() {
   const averageEnergy = cummulativeEnergy / playlistLength;
   spiral = Math.round(( 25/cummulativeEnergy + Number.EPSILON) * 10) / 10;
   console.log( "total " + cummulativeEnergy + " | average " + averageEnergy + " | spiral " + spiral );
+
+  // define Spiral type here?
+
+  setSliders(8, 100, spiral, 24, 0.06, 0);
 
   // set colours of arrows:
   for (let i = 0; i < playlistLength; i++) {
@@ -131,6 +141,10 @@ function btnClicked(e) {
     .catch((error) => {
       console.log('An error has occurred: ' + error.message);
     });
+
+  //enable radio buttons
+  document.getElementById("manual-on").disabled = false;
+  document.getElementById("manual-off").disabled = false;
   // hide button after getData is triggered
   toggleVisibility( document.getElementById("btnData") );
 }
@@ -139,34 +153,24 @@ function btnClicked(e) {
 function draw() {
   let w = width;
   background(0, 0, 10);
-  translate(width/2, height/2);
 
+  // only run after data is loaded:
   if (data) {
-    // only run after data is loaded
-    let r = document.getElementById("sliderR").value;
-    let dist = document.getElementById("sliderDist").value;
-    let turns = document.getElementById("sliderTurns").value;
-    let fontsize = document.getElementById("sliderFontsize").value;
-    let factor = document.getElementById("sliderFact").value;
-    let angle = document.getElementById("sliderAngle").value;
-
-    let output1 = document.getElementById("rValue");
-    output1.innerHTML = r;
-    let output2 = document.getElementById("distValue");
-    output2.innerHTML = dist;
-    let output3 = document.getElementById("turnsValue");
-    output3.innerHTML = turns;
-    let output4 = document.getElementById("fontValue");
-    output4.innerHTML = fontsize;
-    let output5 = document.getElementById("growthValue");
-    output5.innerHTML = factor;
-    let output6 = document.getElementById("angleValue");
-    output6.innerHTML = angle;
-
     if (manual) {
+      let r = document.getElementById("sliderR").value;
+      let dist = document.getElementById("sliderDist").value;
+      let turns = document.getElementById("sliderTurns").value;
+      let fontsize = document.getElementById("sliderFontsize").value;
+      let factor = document.getElementById("sliderFact").value;
+      let angle = document.getElementById("sliderAngle").value;
+
       drawSpiral(w/r, w/dist, turns, w/fontsize, factor, angle);
+      // drawSpiral(r, dist, turns, fontsize, factor, angle);
+
+      updateOutputs(r, dist, turns, fontsize, factor, angle);
     } else {
       drawSpiral(w/8, w/100, spiral, w/24, 0.06, 0);
+      updateOutputs(8, 100, spiral, 24, 0.06, 0);
     }
   }
 }
@@ -176,6 +180,7 @@ function draw() {
  * drawSpiral(w/r, w/dist, turns, w/fontsize, fontgrowth, angle);
  */
 function drawSpiral(r, dist, turns, fontsize, factor, angle) {
+  translate(width/2, height/2);
   rotate(angle);
   let theta = 0;
   push();
@@ -184,33 +189,33 @@ function drawSpiral(r, dist, turns, fontsize, factor, angle) {
     rotate(2 * PI / playlistLength * turns);
     push();
     translate(r * sin(theta), r * cos(theta));
-    // rotation for individual letter
+    // rotation for individual arrow
     rotate(PI);
 
-    /* for some reason if I remove this the arrow is black */
+    // base color
     fill(colorA[i]);
 
-    /* font settings */
+    // font stuff
     textFont(font);
-    // textSize( fontsize + fontsize * energy[i] );
-    textSize( fontsize * 1.75 );
+    textSize(fontsize); /* REMOVED * 1.75 */
 
-    /* adding gradient fill */
+    // adding gradient fill
     gradientFill( fontsize * 2 , fontsize * 2, colorA[i], colorB[i]);
 
-    /* adding glow effect */
-    let glow = 0;
+    // adding glow effect
+    let blur = 0;
     if (danceability[i] > 0.25) {
-      glow = Math.floor( map( danceability[i], 0.25, 0.8, 0, 80, true ) );
+      blur = Math.floor( map( danceability[i], 0.25, 0.8, 0, 80, true ) );
       let glowColor = colorA[i];
-      // CHANGE?
-      shadowGlow( glow, glowColor );
+      shadowGlow(blur, glowColor);
     }
+
+    // draw arrow
     text("⬆", 0, 0);
-    // text("\uF34D", 0, 0);
 
     pop();
 
+    // change fontsize and radius across spiral
     fontsize += fontsize * factor;
     r += dist;
   }
@@ -219,16 +224,6 @@ function drawSpiral(r, dist, turns, fontsize, factor, angle) {
 
 
 /* ----------- DRAWING functions ----------------------------*/
-
-/* function redrawing if window is resized */
-function windowResized() {
-  if (windowHeight < windowWidth) {
-    resizeCanvas(windowHeight/100 * canvasP, windowHeight/100 * canvasP);
-  } else {
-    resizeCanvas(windowWidth/100 * canvasP, windowWidth/100 * canvasP);
-  }
-  redraw();
-};
 
 /* draw a gradient fill */
 function gradientFill(w, h, cA, cB, n) {
@@ -244,8 +239,18 @@ function shadowGlow(b, c) {
   drawingContext.shadowColor = color(c[0], c[1], c[2]);
 }
 
+/* function redrawing if window is resized */
+function windowResized() {
+  if (windowHeight < windowWidth) {
+    resizeCanvas(windowHeight/100 * canvasP, windowHeight/100 * canvasP);
+  } else {
+    resizeCanvas(windowWidth/100 * canvasP, windowWidth/100 * canvasP);
+  }
+  redraw();
+};
 
-/* ----------- INTERFACE functionality ----------------------*/
+
+/* ----------- INTERFACE functions --- ----------------------*/
 
 /* function that adds playlist items to a ul */
 function addToList() {
@@ -290,7 +295,7 @@ function addToList() {
   }
 }
 
-/* general visibility toggle function */
+/* visibility toggle function */
 function toggleVisibility(element) {
   if (element.style.display === "none") {
     element.style.display = "block";
@@ -313,13 +318,13 @@ function toggleTracklist() {
   toggleVisibility( x );
 }
 
-function toggleCntrls() {
-  const btnHide = document.getElementById("hideCntrls");
-  const btnShow = document.getElementById("showCntrls");
+function toggleControls() {
+  const btnHide = document.getElementById("hideControls");
+  const btnShow = document.getElementById("showControls");
   toggleVisibility( btnHide );
   toggleVisibility( btnShow );
 
-  const div = document.getElementById("tabCntrls");
+  const div = document.getElementById("tabControls");
   div.classList.toggle("active");
 
   const x = document.getElementById("controls");
@@ -337,9 +342,6 @@ function changeRadio() {
     } else if ( this.value === 'false' ) {
     manual = false;
 
-    let spiralSlider = document.getElementById('sliderTurns');
-    spiralSlider.value = spiral;
-
     /* disable sliders */
     document.querySelectorAll('.slider').forEach( function( s ) {
       s.disabled = true;
@@ -350,4 +352,36 @@ function changeRadio() {
 
 function sliderChange(event) {
   redraw();
+}
+
+function setSliders(r, dist, turns, fontsize, factor, angle) {
+
+  const rSlider = document.getElementById("sliderR");
+  rSlider.value = r;
+  const distSlider = document.getElementById("sliderDist");
+  distSlider.value = dist;
+  const spiralSlider = document.getElementById("sliderTurns");
+  spiralSlider.value = turns;
+  const fontsizeSlider = document.getElementById("sliderFontsize");
+  fontsizeSlider.value = fontsize;
+  const factorSlider = document.getElementById("sliderFact");
+  factorSlider.value = factor;
+  const angleSlider = document.getElementById("sliderAngle");
+  angleSlider.value = angle;
+}
+
+function updateOutputs(r, dist, turns, fontsize, factor, angle) {
+
+  const rOutput = document.getElementById("rValue");
+  rOutput.innerHTML = r;
+  const distOutput = document.getElementById("distValue");
+  distOutput.innerHTML = dist;
+  const spiralOutput = document.getElementById("turnsValue");
+  spiralOutput.innerHTML = turns;
+  const fontsizeOutput = document.getElementById("fontValue");
+  fontsizeOutput.innerHTML = fontsize;
+  const factorOutput = document.getElementById("growthValue");
+  factorOutput.innerHTML = factor;
+  const angleOutput = document.getElementById("angleValue");
+  angleOutput.innerHTML = angle;
 }
