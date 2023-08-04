@@ -256,6 +256,7 @@ h2 {
 
 .year1980s {
   background-color: #4A6ADD;
+  color: var(--inverse-font-color);
 }
 
 .year1990s {
