@@ -7,8 +7,11 @@ const fetch = require('node-fetch');
 // Require this environment variable thing
 require('dotenv').config();
 
-// listen to port 3000, callback
-app.listen(3000, () => console.log('listening at 3000'));
+// listen to port, callback
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`listening at ${port}`);
+});
 
 // server should be able to serve static web pages -> index.html
 app.use(express.static('public'));
