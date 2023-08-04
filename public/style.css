@@ -15,7 +15,6 @@
   color: #FFFFFF;
 }
 
-
 /* ---------- Dark / Light Mode ---------- */
 
 body {
@@ -29,7 +28,6 @@ body {
   --line-color: #1A1A1A;
   --reddit-red: #FF4500;
 }
-
 
 body.dark {
   --font-weight: 400;
@@ -66,7 +64,6 @@ body.dark {
   --reddit-red: #FF4500;
  }
 }
-
 
 /* --------------------------------------- */
 
