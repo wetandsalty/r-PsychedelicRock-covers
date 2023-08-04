@@ -1,3 +1,5 @@
+let prefersDarkScheme;
+
 let data;
 let font;
 let canvasP = 72;
@@ -49,6 +51,15 @@ function setup() {
   document.querySelectorAll('.slider').forEach( function( s ) {
     s.disabled = true;
   });
+  
+  /* dark mode stuff */
+  prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  
+  if (prefersDarkScheme.matches) {
+    document.getElementById('labelDark').classList.toggle("show");
+  } else {
+    document.getElementById('labelLight').classList.toggle("show");
+  }
 }
 
 // gets Spotify data
@@ -78,24 +89,24 @@ function handlingData() {
   spiral[3] = 16; // fontsize
   spiral[5] = 0; // angle
 
-  console.log( "first: " + first + " | last: " + last );
+  // console.log( "first: " + first + " | last: " + last );
 
   if (last < 0.2) {
-    console.log( "'Snail'");
+    // console.log( "'Snail'");
     spiral[0] = 14;  // r
     spiral[1] = round(map(first, 0, 1, 100, 72, true)); // dist
     spiral[2] = round(map(first, 0.2, 1, 1, 2.7, true), 1); // spiral
     spiral[4] = 0.072; // growth
 
   } else if (last < 0.5) {
-    console.log( "'Duo'");
+    // console.log( "'Duo'");
     spiral[0] = 14; // r
     spiral[1] = 82; // dist
     spiral[2] = round(map(first, 0, 1, 11.5, 13.7, true), 1); //spiral
     spiral[4] = 0.072; // growth
 
   } else if (last < 0.8) {
-    console.log( "'Trio'");
+    // console.log( "'Trio'");
     spiral[0] = round(map(first, 0, 1, 8, 48, true)); // r
 
     if ( first < 0.5 ) {
@@ -109,7 +120,7 @@ function handlingData() {
     spiral[4] = 0.068; // growth
 
   } else if (last < 0.9) {
-    console.log( "'4er'" );
+    // console.log( "'4er'" );
 
     if ( first < 0.25 ) {
       spiral[2] = 5.7;
@@ -126,7 +137,7 @@ function handlingData() {
     spiral[4] = round(map(first, 0, 1, 0.05, 0.08, true), 2); // growth
 
   } else {
-    console.log( "'5er'" );
+    // console.log( "'5er'" );
     spiral[0] = round(map(first, 0, 1, 6, 32, true)); // r
     spiral[1] = round(map(first, 0, 1, 140, 72, true)); // dist
 
@@ -286,7 +297,6 @@ function drawSpiral(r, dist, turns, fontsize, factor, angle) {
   pop();
 }
 
-
 /* ----------- DRAWING functions ----------------------------*/
 
 /* draw a gradient fill */
@@ -318,6 +328,9 @@ function windowResized() {
 
 /* function that adds playlist items to a ul */
 function addToList() {
+  // hide placeholder test
+  document.getElementById("placeholder").style.display="none";
+  
   // for each song in the playlist do this...
   const ul = document.getElementById("tracklist");
   // position to add li elements
@@ -391,6 +404,27 @@ function toggleControls() {
 
   const x = document.getElementById("controls");
   toggleVisibility( x );
+}
+
+function toggleMode() {
+  
+  let labelDark = document.getElementById('labelDark');
+  let labelLight = document.getElementById('labelLight');
+
+  // If the OS is set to dark mode...
+  if (prefersDarkScheme.matches) {
+    // ...then apply the .light-theme class to override those styles
+    document.body.classList.toggle("light");
+      
+    labelDark.classList.toggle("show");
+    labelLight.classList.toggle("show");
+  } else {
+    // ...apply the .dark-theme class to override the default light styles
+    document.body.classList.toggle("dark");
+
+    labelDark.classList.toggle("show");
+    labelLight.classList.toggle("show");
+  }
 }
 
 /* radio buttons functionality */

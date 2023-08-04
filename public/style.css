@@ -1,43 +1,74 @@
 @font-face {
-  font-family: "redditfont";
-  src: url(./assets/fonts/redditfont.ttf);
-  font-weight: 400;
+  font-family: "WorkSans";
+  src: url(./assets/fonts/WorkSans-Variable.ttf);
+  font-weight: 100 900;
   font-style: normal;
 }
-
-@font-face {
-  font-family: "Work Sans";
-  src: url(./assets/fonts/WorkSans-Regular.otf);
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Work Sans";
-  src: url(./assets/fonts/WorkSans-Medium.otf);
-  font-weight: 500;
-  font-style: normal;
-}
-
 
 ::selection {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: #FF4500;
+  color: #FFFFFF;
 }
 
 ::-moz-selection {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: #FF4500;
+  color: #FFFFFF;
 }
 
-:root {
+
+/* ---------- Dark / Light Mode ---------- */
+
+body {
   --font-tech: bd-geminis, sans-serif;
-  --font-body: "Work Sans", sans-serif;
-  --font-weight: 500;
-  --main-font-color: #1a1a1a;
-  --inverse-font-color: #ffffff;
-  --reddit-red: #ff4500;
+  --font-body: "WorkSans", sans-serif;
+  --font-weight: 500;  
+  --font-weight-inverse: 400;
+  --font-color-main: #1A1A1A;
+  --font-color-inverse: #FFFFFF;
+  --overlay-color: #FFFFFF;
+  --line-color: #1A1A1A;
+  --reddit-red: #FF4500;
 }
+
+
+body.dark {
+  --font-weight: 400;
+  --font-weight-inverse: 500;
+  --font-color-main: #FFFFFF;
+  --font-color-inverse: #161616;
+  --overlay-color: #1A1A1A;
+  --line-color: #808080;
+  --reddit-red: #FF4500;
+}
+
+/* Styles for users who prefer dark mode at the OS level */
+@media (prefers-color-scheme: dark) {
+ /* dark theme */
+ body {
+  --font-tech: bd-geminis, sans-serif;
+  --font-body: "WorkSans", sans-serif;
+  --font-weight: 400;
+  --font-weight-inverse: 500;
+  --font-color-main: #FFFFFF;
+  --font-color-inverse: #161616;
+  --overlay-color: #1A1A1A;
+  --line-color: #808080;
+  --reddit-red: #FF4500;
+ }
+ /* light theme */
+ body.light {
+  --font-weight: 500;
+  --font-weight-inverse: 400;
+  --font-color-main: #1A1A1A;
+  --font-color-inverse: #FFFFFF;
+  --overlay-color: #FFFFFF;
+  --line-color: #1A1A1A;
+  --reddit-red: #FF4500;
+ }
+}
+
+
+/* --------------------------------------- */
 
 *,
 *:after,
@@ -47,18 +78,19 @@
   /* -webkit-tap-highlight-color: rgba(255,255,255,0.4); */
 }
 
-html,
-body {
+html {
   margin: 0;
   padding: 0;
 }
 
-body {
-  background-color: white;
-  color: var(--main-font-color);
+.body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--font-color-inverse);
+  color: var(--font-color-main);
   font-family: var(--font-body);
   font-size: clamp(18px, 2.75vmin, 24px);
-  font-weight: 500;
+  font-weight: var(--font-weight);
   line-height: 1.25;
   height: 100vh;
   width: 100vw;
@@ -77,7 +109,7 @@ body {
 header {
   width: 100%;
   padding: 1.5rem 1.75rem;
-  font-size: clamp(36px, 9vw, 120px);
+  font-size: clamp(40px, 8.6vw, 120px);
   line-height: 1;
   font-family: var(--font-tech);
   z-index: 0;
@@ -98,9 +130,8 @@ header {
   }
 }
 
-header__title {
-  margin: 0;
-  padding: 0;
+.header__title {
+  margin: 0 2rem 0 0;
 }
 
 .arrow {
@@ -118,7 +149,7 @@ header__title {
 }
 
 .arrow svg path {
-  fill: var(--main-font-color);
+  fill: var(--font-color-main);
 }
 
 .header__link {
@@ -130,6 +161,62 @@ header__title {
   fill: var(--reddit-red);
 }
 
+/* ------ Toggle controls ------ */
+
+.modecontrols {
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.modetoggle {
+  display: none;
+  font-size: 0.75em;
+  padding: 0 0 0 1em;
+  cursor: pointer;
+}
+
+.modetoggle.show {
+  display: block;
+}
+
+.modeicon {
+  display: block;
+  background-color: #1A1A1A;
+  border: 1px solid var(--font-color-main);
+  border-radius: 100%;
+  width: 24px;
+  height: 24px;
+  padding: 0 0 0 11px;
+}
+
+.modeicon:after {
+  position: relative;
+  content: '';
+  display: block;
+  background-color: #FFFFFF;
+  border-style: solid;
+  border-width: 1px 1px 1px 0;
+  border-color: var(--font-color-main);
+  border-radius: 0 0.9em 0.9em 0;
+  margin-top: -1px;
+  width: 13px;
+  height: 24px;
+}
+
+.modetoggle:hover .modeicon {
+  background-color: #FFFFFF;
+}
+
+.modetoggle:hover .modeicon:after {
+  background-color: #1A1A1A;
+}
+
+/* ------ cover canvas etc. ------ */
+
 .button {
   position: absolute;
   left: calc(50% - 3em);
@@ -137,10 +224,10 @@ header__title {
   width: 6em;
   border: 0;
   border-radius: 3px;
-  background: var(--inverse-font-color);
-  color: var(--main-font-color);
+  background: #FFFFFF;
+  color: #1A1A1A;
   font-family: var(--font-body), sans-serif;
-  font-weight: var(--font-weight);
+  font-weight: 500;
   font-size: 1em;
   line-height: 2.25;
   white-space: nowrap;
@@ -152,8 +239,8 @@ header__title {
 
 .button:hover {
   background: var(--reddit-red);
-  color: var(--inverse-font-color);
-  font-weight: 400;
+  color: var(--font-color-inverse);
+  font-weight: var(--font-weight-inverse);
 }
 
 .cover {
@@ -204,10 +291,10 @@ h3 {
   color: transparent;
   width: 2em;
   height: 2em;
-  border: 2px solid var(--inverse-font-color);
-  border-bottom-color: var(--main-font-color);
-  border-left-color: var(--main-font-color);
-  border-right-color: var(--main-font-color);
+  border: 2px solid var(--font-color-inverse);
+  border-bottom-color: var(--font-color-main);
+  border-left-color: var(--font-color-main);
+  border-right-color: var(--font-color-main);
   border-radius: 50%;
   display: inline-block;
   animation: rotation 1s linear infinite;
@@ -233,7 +320,7 @@ h3 {
   bottom: 0;
   width: 100%;
   z-index: 8;
-  background-color: var(--inverse-font-color);
+  background-color: var(--overlay-color);
 }
 
 .tab {
@@ -242,7 +329,7 @@ h3 {
   flex: 0 0 100%;
   text-align: center;
   line-height: 2.25;
-  border-top: 1px solid black;
+  border-top: 1px solid var(--line-color);
 }
 
 @media screen and (min-width: 600px) {
@@ -253,6 +340,11 @@ h3 {
 
   .tab {
     flex: 1 1 30%;
+    order: 2;
+  }
+  
+  #tabControls {
+    order: 1;
   }
 }
 
@@ -271,15 +363,16 @@ h3 {
 }
 
 .tab.active {
-  color: var(--inverse-font-color);
-  background-color: var(--main-font-color);
-  font-weight: 400;
+  color: var(--font-color-inverse);
+  background-color: var(--font-color-main);
+  font-weight: var(--font-weight-inverse);
+  border-color: var(--font-color-main);  /* here font colour not line colour is needed to prevent lines from "doubling" on mobile */
 }
 
 .▶ {
   flex: 0 1 0.66em;
   display: inline-block;
-  margin: 0 0.25em 0 0;
+  margin: 0 0.33em 0 0;
 }
 
 .▶ svg {
@@ -297,16 +390,26 @@ h3 {
   overflow: hidden;
 }
 
+#play {
+  fill: var(--font-color-main);
+}
+
 @media only screen and (min-width: 480px) {
+  .tab.active {
+    border-color: var(--line-color); /* reverse special mobile styling */
+  }
+}
+
+@media only screen and (min-width: 600px) {
   .tab.active:hover,
   .tab:hover {
     background-color: var(--reddit-red);
-    color: var(--inverse-font-color);
-    font-weight: 400;
+    color: var(--font-color-inverse);
+    font-weight: var(--font-weight-inverse);
   }
 
-  .playlink:hover svg path {
-    fill: var(--inverse-font-color);
+  .playlink:hover #play {
+    fill: var(--font-color-inverse);
   }
 }
 
@@ -320,18 +423,18 @@ h3 {
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+  background-color: var(--overlay-color);
   list-style: none;
   z-index: 11;
   overflow-x: auto;
   overflow-y: scroll;
-  border-bottom: 1px solid var(--main-font-color);
+  border-bottom: 1px solid var(--line-color);
 }
 
 @media screen and (min-width: 600px) {
   .tracklist {
     height: calc(100% - 2.25em);
-    border-left: 1px solid var(--main-font-color);
+    border-left: 1px solid var(--line-color);
     width: clamp(480px, 50%, 600px);
   }
 }
@@ -340,18 +443,19 @@ h3 {
   display: flex;
   margin: 0;
   min-height: 2.25em;
-  border-bottom: 1px solid var(--main-font-color);
+  border-bottom: 1px solid var(--line-color);
   transition: flex 0.4s ease;
   align-items: baseline;
 }
 
-.tracklist__li:nth-last-child(2) {
+/* counting backwards because there's display:none <li>s */
+.tracklist__li:nth-last-child(-n + 2){
   margin-bottom: 4em;
 }
 
 .tracklist__header,
 .tracklist__footer {
-  background-color: var(--inverse-font-color);
+  background-color: var(--overlay-color);
   height: 2.25em;
   text-align: center;
 }
@@ -359,7 +463,7 @@ h3 {
 .tracklist__header {
   top: 0;
   position: sticky;
-  border-bottom: 1px solid var(--main-font-color);
+  border-bottom: 1px solid var(--line-color);
   line-height: 2.25;
   padding: 0 1em;
   overflow: hidden;
@@ -367,14 +471,9 @@ h3 {
   text-overflow: ellipsis;
 }
 
-.tracklist__footer {
-  display: none;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  height: 2.25em;
-  border-bottom: none;
-  border-top: 1px solid var(--main-font-color);
+.tracklist__placeholder {
+  line-height: 1.25em;
+  padding: 0.5em 1em;
 }
 
 .tracklist .number {
@@ -389,16 +488,18 @@ h3 {
   padding: 0.5em 0.5em 0.5em 0;
 }
 
-
 /* ------ songs "key" ------ */
 
 .color {
   display: block;
-  flex: 1 0 auto;
+  flex: 1 0 3em;
   padding: 3px 4px 2px 4px;
   border-radius: 3px 4px;
   margin: 0.5em 0.75em 0.5em 0.5em;
+  color: #1A1A1A;
   font-size: 0.8em;
+  font-weight: 500;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -407,15 +508,15 @@ h3 {
   display: block;
   position: fixed;
   z-index: 12;
-  background-color: var(--main-font-color);
-  color: var(--inverse-font-color);
+  background-color: var(--font-color-main);
+  color: var(--font-color-inverse);
   top: 0;
   right: 0;
   text-align: right;
   margin: 0.7em 0.5em;
   padding: 3px 4px;
   border-radius: 3px;
-  font-weight: 400;
+  font-weight: var(--font-weight-inverse);
   white-space: nowrap;
 }
 
@@ -439,17 +540,20 @@ h3 {
 
 .year1980s {
   background-color: #4a6add;
-  color: var(--inverse-font-color);
+  color: #FFFFFF;
+  font-weight: 420;
 }
 
 .year1990s {
   background-color: #383731;
-  color: var(--inverse-font-color);
+  color: #FFFFFF;
+  font-weight: 420;
 }
 
 .year2000s {
   background-color: #587756;
-  color: var(--inverse-font-color);
+  color: #FFFFFF;
+  font-weight: 420;
 }
 
 .year2010s {
@@ -471,8 +575,8 @@ h3 {
   padding: 0 0 4em 0;
   width: 100%;
   height: calc(100% - 4.5em - 1px);
-  background-color: var(--inverse-font-color);
-  border-bottom: 1px solid var(--main-font-color);
+  background-color: var(--overlay-color);
+  border-bottom: 1px solid var(--line-color);
   overflow-x: auto;
   overflow-y: scroll;
   z-index: 9;
@@ -484,7 +588,7 @@ h3 {
     height: calc(100% - 2.25em);
     width: clamp(320px, 33.4%, 400px);
     padding-bottom: 0;
-    border-right: 1px solid var(--main-font-color);
+    border-right: 1px solid var(--line-color);
     border-bottom: none;
   }
 }
@@ -498,7 +602,14 @@ h3 {
 
 .controls__li {
   padding: 0.75em 0.75em 0.5em 0.75em;
-  border-bottom: 1px solid var(--main-font-color);
+  border-bottom: 1px solid var(--line-color);
+}
+
+/* if accent-color can be used... changes default input/slider colour */
+@supports (accent-color: inherit) {
+  input {
+    accent-color: #ff2ef1; /* var(--reddit-red) */
+  }
 }
 
 .radiogroup {
