@@ -350,7 +350,7 @@ h3 {
 
 /* ------ bottom "tab" bar ------ */
 
-.control-bar {
+.tabbar {
   position: fixed;
   display: flex;
   flex-flow: column;
@@ -372,7 +372,7 @@ h3 {
 }
 
 @media screen and (min-width: 600px) {
-  .control-bar {
+  .tabbar {
     flex-flow: row;
     z-index: 11;
   }
