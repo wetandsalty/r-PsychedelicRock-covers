@@ -323,7 +323,6 @@ function windowResized() {
   redraw();
 };
 
-
 /* ----------- INTERFACE functions --- ----------------------*/
 
 /* function that adds playlist items to a ul */
@@ -373,9 +372,9 @@ function addToList() {
 /* visibility toggle function */
 function toggleVisibility(element) {
   if (element.style.display === "none") {
-    element.style.display = "block";
-  } else {
-    element.style.display = "none";
+    element.style.display = "block";
+  } else {
+    element.style.display = "none";
   }
 }
 
@@ -411,7 +410,6 @@ function toggleControls() {
 }
 
 function toggleMode() {
-  
   let labelDark = document.getElementById('labelDark');
   let labelLight = document.getElementById('labelLight');
 
@@ -461,7 +459,6 @@ function sliderChange(event) {
 }
 
 function setSliders(spiral) {
-
   let c = 0;
   document.querySelectorAll('.slider').forEach( function( s ) {
     s.value = spiral[ c ],
@@ -470,7 +467,6 @@ function setSliders(spiral) {
 }
 
 function updateOutputs(r, dist, turns, fontsize, factor, angle) {
-
   const rOutput = document.getElementById("rValue");
   rOutput.innerHTML = r;
   const distOutput = document.getElementById("distValue");
@@ -484,7 +480,6 @@ function updateOutputs(r, dist, turns, fontsize, factor, angle) {
   const angleOutput = document.getElementById("angleValue");
   angleOutput.innerHTML = angle;
 }
-
 
 /* shuffle function for testing */
 function shufflewaffle(array) {
