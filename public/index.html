@@ -7,7 +7,6 @@
     <title>r/PsychedelicRock | Top weekly posts</title>
 
     <link rel="icon" href="favicon.png" sizes="96x96" />
-
     <link rel="icon" href="assets/favicons/favicon-196.png" sizes="196x196" />
     <link rel="icon" href="assets/favicons/favicon-192.png" sizes="192x192" />
     <link rel="icon" href="assets/favicons/favicon-180.png" sizes="180x180" />
@@ -19,15 +18,33 @@
     <link rel="icon" href="assets/favicons/favicon-32.png" sizes="32x32" />
     <link rel="icon" href="assets/favicons/favicon-16.png" sizes="16x16" />
 
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1A1A1A" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#FFFFFF"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#1A1A1A"
+    />
 
     <!-- loading normalize, fonts and stylesheet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
     <link rel="stylesheet" href="https://use.typekit.net/rbo0ced.css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
+    
+    <!-- force https -->
+    <script>
+      if (location.protocol != 'https:') {
+       location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+      }
+    </script>
 
-    <!-- loading p5.js libs -->
+    <!-- loading p5.js libraries -->
     <script src="./libs/p5.min.js"></script>
   </head>
   <body class="body" id="page">
@@ -63,6 +80,7 @@
 
       <div class="modecontrols">
         <a
+          href="#"
           onclick="toggleMode();"
           class="modetoggle"
           id="labelDark"
@@ -71,6 +89,7 @@
           <div class="modeicon"></div>
         </a>
         <a
+          href="#"
           onclick="toggleMode();"
           class="modetoggle"
           id="labelLight"
@@ -207,24 +226,51 @@
       <ul class="tracklist" id="tracklist" style="display: none">
         <li class="tracklist__header">Tracklist</li>
         <li class="tracklist__placeholder" id="placeholder">
-          Please press "get data" to get playlist tracks.
+          Please press 'get data' to get playlist tracks.
         </li>
-        <!-- li class="tracklist__aboutheader">
+        <li class="tracklist__header aboutheader">
           About
-        </li -->
-        <!-- li class="tracklist__about">
-          This p5.js sketch makes a "cover" image based on a continuously updated Spotify playlist.
-          Each of the 25 songs in the playlist is represented by an arrow (the
-          "upvote" symbol ⬆). The base colour of each arrow is defined by the year the song
-          was released. Additional Spotify metadata used: Higher "danceability" → more glow. A
-          song's "instrumentalness" has an effect on the gradient on the arrow.
-          In "auto" mode, the "energy" of the first and last song have an impact on the shape of
-          the spiral.
-        </li -->
+        </li>
+        <li class="tracklist__about">
+          <p>
+            This p5.js sketch makes a 'cover' image based on an auto updated <a class="link"
+            href="https://open.spotify.com/playlist/13REVO8Q6DbIqQVL9brrkA?si=8631ec5a2b674634" target="_blank" title="link to playlist">
+            Spotify</a> playlist 
+            by <a class="link" href="https://www.reddit.com/r/Listige/" target="_blank" title="link to Listige subreddit">Listige</a>
+            (upvoted song posts in music <a class="link" href="https://reddit.com/r/psychedelicrock" target="_blank">subreddit</a> get 
+            added).
+          </p>
+          <p>
+            Each of the 25 songs in the playlist is re&shy;presented by an arrow, the 'upvote' icon&nbsp;<span class="smallarrow"><svg
+                width="72px"
+                height="72px"
+                viewbox="0 0 72 72"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+              >
+                <title>upvote arrow</title>
+                <path
+                  d="M33.9704349,2.2942473 L4.82154672,32.9321533 C3.67950655,34.1325326 3.72679969,36.0314387 4.9271789,37.1734788 C5.4848904,37.7040853 6.22522993,38 6.99502555,38 L20,38 L20,38 L20,69 C20,70.6568542 21.3431458,72 23,72 L49,72 C50.6568542,72 52,70.6568542 52,69 L52,38 L52,38 L65.0457949,38 C66.7026492,38 68.0457949,36.6568542 68.0457949,35 C68.0457949,34.2346097 67.7532491,33.4981631 67.22804,32.9414067 L38.3261588,2.30350065 C37.1892292,1.09827997 35.2905411,1.04291918 34.0853204,2.17984887 C34.0460017,2.21693973 34.0076925,2.25508647 33.9704349,2.2942473 Z"
+                  id="smallarrow"
+                  fill-rule="nonzero"
+                ></path>
+              </svg>
+            </span>. 
+            The base colour of each arrow is defined by the year the song
+            was re&shy;leased. 
+          </p>
+          <p>
+            Further Spotify <a class="link" href="https://developer.spotify.com/documentation/web-api/reference/get-audio-features"
+            target="_blank" title="link to web api documentation">metadata</a> used: Higher 'dance&shy;ability' → more glow. 
+            'In&shy;stru&shy;mental&shy;ness' → affects gradient on&nbsp;the arrow. In&nbsp;'auto' mode, the 
+            'energy' of the first and last song have an impact on the shape of the spiral.
+          </p>
+        </li>
       </ul>
     </main>
 
-    <footer class="tabbar">
+    <footer class="control-bar">
       <div class="tab">
         <a
           class="playlink"
@@ -255,7 +301,8 @@
       </div>
       <div class="tab" id="tabControls">
         <a
-          class="tab__controls"
+          href="#"
+          class="tab-controls"
           id="hideControls"
           onclick="toggleControls()"
           style="display: none"
@@ -263,7 +310,8 @@
           hide controls
         </a>
         <a
-          class="tab__controls visible"
+          href="#"
+          class="tab-controls visible"
           id="showControls"
           onclick="toggleControls()"
         >
@@ -272,7 +320,8 @@
       </div>
       <div class="tab" id="tabTracklist">
         <a
-          class="tab__controls"
+          href="#"
+          class="tab-controls"
           id="hideTracklist"
           onclick="toggleTracklist()"
           style="display: none"
@@ -280,7 +329,8 @@
           hide info
         </a>
         <a
-          class="tab__controls visible"
+          href="#"
+          class="tab-controls visible"
           id="showTracklist"
           onclick="toggleTracklist()"
         >
