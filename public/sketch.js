@@ -385,6 +385,8 @@ function toggleTracklist() {
   const btnHide = document.getElementById("hideTracklist");
   toggleVisibility( btnHide );
   toggleVisibility( btnShow );
+  
+  document.getElementById("page").classList.toggle("locked");
 
   const div = document.getElementById("tabTracklist");
   div.classList.toggle("active");
@@ -398,6 +400,8 @@ function toggleControls() {
   const btnShow = document.getElementById("showControls");
   toggleVisibility( btnHide );
   toggleVisibility( btnShow );
+  
+  document.getElementById("page").classList.toggle("locked");
 
   const div = document.getElementById("tabControls");
   div.classList.toggle("active");
