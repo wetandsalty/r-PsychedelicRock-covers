@@ -387,10 +387,12 @@ h3 {
   }
 }
 
-.tab-controls {
+.tab__controls {
   cursor: pointer;
 }
 
+/* not in use. delete? */
+/*
 .tab-close {
   display: flex;
   justify-content: center;
@@ -400,6 +402,7 @@ h3 {
   cursor: pointer;
   text-align: center;
 }
+*/
 
 .tab.active {
   color: var(--font-color-inverse);
