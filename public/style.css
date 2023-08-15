@@ -78,6 +78,7 @@ body.dark {
 html {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 .body {
@@ -89,8 +90,8 @@ html {
   font-size: clamp(18px, 2.75vmin, 24px);
   font-weight: var(--font-weight);
   line-height: 1.25;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
 .container {
